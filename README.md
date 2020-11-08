@@ -1,2 +1,2 @@
 # TodoList
-a C program representing a TODO list
+C program representing a TODO list
