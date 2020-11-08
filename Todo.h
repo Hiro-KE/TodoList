@@ -15,8 +15,8 @@ typedef struct FTodo{
 
 // Creating this due to being unable to create a "==" operator for some reasons 
 uint8_t equalTodo(const FTodo lhs, const FTodo rhs){
-    if ((lhs.note == rhs.note) && (lhs.time == lhs.time)) return true;
-    return false;
+    if ((lhs.note == rhs.note) && (lhs.time == lhs.time)) return 1;
+    return 0;
 }
 
 int isValidTime(const char* str){
@@ -88,7 +88,7 @@ void convertStringToTodo(const char* str, FTodo* resultTodo){
 }
 
 // Converts the Todo struct to a string
-void TodoToString(const FTodo* inTodo, char* resultString){
+void todoToString(const FTodo* inTodo, char* resultString){
     strcat(resultString, inTodo->time);
     strcat(resultString, " - ");
     strcat(resultString, inTodo->note);

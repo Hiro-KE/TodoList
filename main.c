@@ -22,8 +22,8 @@ int main(int argc, char *argv[]){
     char stringToWrite[FILE_SIZE] = "";
 
     todoFile = fopen(FILE_NAME, "r");
-    uint8_t TodoListSize;
-    TodoListSize = fillListFromFile(todoFile, TodoList);
+    uint8_t todoListSize;
+    todoListSize = fillListFromFile(todoFile, TodoList);
     fclose(todoFile);
 
     for( i = 1 ; i < argc-1 ; i += 2 ){
@@ -38,18 +38,29 @@ int main(int argc, char *argv[]){
         if ( !isValidNoteValue || !isValidTimeValue )
             printf("Wrong input!\n");
         else {
+
             // Check if the todo already exists
-            uint8_t j;
-            uint8_t exists = false;
-            for(j = 0 ; j < TodoListSize ; j++){
-                if (equalTodo(todo, TodoList[j]) == true) exists = true;
+            uint16_t j;
+            uint8_t exists = 0;
+            for(j = 0 ; j < todoListSize ; j++){
+                uint8_t result = equalTodo(todo, TodoList[j]);
+                if (result == 1) exists = 1; 
             }
             
-            if (exists == false){
-                TodoList[TodoListSize] = todo;
-                TodoListSize++;
+            // it doesn't exists, so we're adding it to the stack
+            if (!exists){
+                TodoList[todoListSize] = todo;
+                todoListSize++;
             }
         }
+    }
+
+    for(i = 0 ; i < todoListSize ; i++){
+        char todoString[60] = "";
+        todoToString (&TodoList[i], todoString);
+        strcat(stringToWrite, todoString);
+        if (i < todoListSize - 1)
+            strcat(stringToWrite, "\n");
     }
 
     todoFile = fopen(FILE_NAME, "w");
